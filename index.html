@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+<title>Hệ Thống Quản Lý Tour Du Lịch</title>
+
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+background:#f0f0f0;
+}
+
+header{
+background:#0099cc;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+}
+
+nav{
+background:#333;
+text-align:center;
+padding:10px;
+}
+
+nav button{
+padding:10px 20px;
+margin:5px;
+background:#00aaff;
+border:none;
+color:white;
+cursor:pointer;
+}
+
+.container{
+padding:20px;
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.tour{
+width:300px;
+background:white;
+margin:15px;
+border-radius:10px;
+box-shadow:0 0 10px gray;
+overflow:hidden;
+}
+
+.tour img{
+width:100%;
+height:200px;
+object-fit:cover;
+}
+
+.tour-content{
+padding:15px;
+}
+
+button{
+padding:8px 15px;
+margin:5px;
+background:#28a745;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+input{
+padding:8px;
+margin:5px;
+width:250px;
+}
+
+select{
+padding:8px;
+margin:5px;
+width:260px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+HỆ THỐNG QUẢN LÝ TOUR DU LỊCH
+</header>
+
+<nav>
+<button onclick="showPage('home')">Danh Mục Tour</button>
+<button onclick="showPage('book')">Đặt Tour</button>
+<button onclick="showPage('pay')">Thanh Toán</button>
+<button onclick="showPage('login')">Admin</button>
+</nav>
+
+
+<div id="home" class="container">
+
+<div class="tour">
+<img src="img/Mui Ne Sand Dunes.jpg">
+<div class="tour-content">
+<h3>Tour Mũi Né</h3>
+<p>Địa điểm: Bình Thuận</p>
+<p>Giá: 3.800.000 VND</p>
+<button onclick="detail('Mũi Né','Bình Thuận','3800000')">Chi Tiết</button>
+<button onclick="book('Mũi Né','3800000')">Đặt Tour</button>
+</div>
+</div>
+
+<div class="tour">
+<img src="img/Da Lat city.jpg">
+<div class="tour-content">
+<h3>Tour Đà Lạt</h3>
+<p>Địa điểm: Lâm Đồng</p>
+<p>Giá: 3.500.000 VND</p>
+<button onclick="detail('Đà Lạt','Lâm Đồng','3500000')">Chi Tiết</button>
+<button onclick="book('Đà Lạt','3500000')">Đặt Tour</button>
+</div>
+</div>
+
+<div class="tour">
+<img src="img/Phu Quoc beach.jpg">
+<div class="tour-content">
+<h3>Tour Phú Quốc</h3>
+<p>Địa điểm: Kiên Giang</p>
+<p>Giá: 5.000.000 VND</p>
+<button onclick="detail('Phú Quốc','Kiên Giang','5000000')">Chi Tiết</button>
+<button onclick="book('Phú Quốc','5000000')">Đặt Tour</button>
+</div>
+</div>
+
+</div>
+
+
+<div id="book" style="display:none;padding:30px">
+
+<h2>Đặt Tour</h2>
+
+<input id="tourName" placeholder="Tên Tour" readonly><br>
+<input id="tourPrice" placeholder="Giá Tour" readonly><br>
+
+<input id="customer" placeholder="Tên khách hàng"><br>
+<input id="phone" placeholder="Số điện thoại"><br>
+<input id="email" placeholder="Email"><br>
+<input id="people" placeholder="Số người"><br>
+
+<button onclick="payment()">Xác Nhận</button>
+
+</div>
+
+
+<div id="pay" style="display:none;padding:30px">
+
+<h2>Thanh Toán</h2>
+
+<p id="tourPay"></p>
+<p id="pricePay"></p>
+
+<h3>Phương thức thanh toán</h3>
+
+<select id="method">
+<option value="cash">Tiền mặt khi đi tour</option>
+<option value="bank">Chuyển khoản ngân hàng</option>
+<option value="qr">Quét QR</option>
+</select>
+
+<div id="bankInfo" style="display:none;margin-top:20px">
+<h3>Thông tin chuyển khoản</h3>
+<p>Ngân hàng: Vietcombank</p>
+<p>Số tài khoản: 123456789</p>
+<p>Chủ tài khoản: CONG TY DU LICH</p>
+</div>
+
+<div id="qrInfo" style="display:none;margin-top:20px">
+<h3>Quét QR thanh toán</h3>
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ThanhToanTour">
+</div>
+
+<br>
+<button onclick="confirmPay()">Thanh Toán</button>
+
+</div>
+
+
+<div id="login" style="display:none;padding:30px">
+
+<h2>Đăng Nhập Admin</h2>
+
+<input id="user" placeholder="Tên đăng nhập"><br>
+<input id="pass" type="password" placeholder="Mật khẩu"><br>
+
+<button onclick="login()">Đăng nhập</button>
+
+<p id="loginError" style="color:red"></p>
+
+</div>
+
+
+<div id="admin" style="display:none;padding:30px">
+
+<h2>Admin Quản Lý Tour</h2>
+
+<input id="tenTourAdmin" placeholder="Tên Tour"><br>
+<input id="diaDiemAdmin" placeholder="Địa Điểm"><br>
+<input id="giaTourAdmin" placeholder="Giá Tour"><br>
+
+<button onclick="themTour()">Thêm Tour</button>
+
+<h3>Danh Sách Tour</h3>
+
+<table border="1" width="100%" id="bangTour">
+
+<tr>
+<th>Tên Tour</th>
+<th>Địa Điểm</th>
+<th>Giá</th>
+<th>Hành Động</th>
+</tr>
+
+</table>
+
+</div>
+
+
+<script>
+
+function showPage(page){
+
+document.getElementById("home").style.display="none"
+document.getElementById("book").style.display="none"
+document.getElementById("pay").style.display="none"
+document.getElementById("admin").style.display="none"
+document.getElementById("login").style.display="none"
+
+document.getElementById(page).style.display="block"
+
+}
+
+function detail(name,place,price){
+
+alert(
+"Tour: "+name+
+"\nĐịa điểm: "+place+
+"\nThời gian: 3 ngày 2 đêm"+
+"\nGiá: "+price+" VND"+
+"\nKhởi hành: mỗi tuần"
+)
+
+}
+
+function book(name,price){
+
+showPage("book")
+
+document.getElementById("tourName").value=name
+document.getElementById("tourPrice").value=price
+
+}
+
+function payment(){
+
+let name=document.getElementById("tourName").value
+let price=document.getElementById("tourPrice").value
+
+showPage("pay")
+
+document.getElementById("tourPay").innerHTML="Tour: "+name
+document.getElementById("pricePay").innerHTML="Giá: "+price+" VND"
+
+}
+
+document.getElementById("method").addEventListener("change",function(){
+
+let m=this.value
+
+document.getElementById("bankInfo").style.display="none"
+document.getElementById("qrInfo").style.display="none"
+
+if(m=="bank"){
+document.getElementById("bankInfo").style.display="block"
+}
+
+if(m=="qr"){
+document.getElementById("qrInfo").style.display="block"
+}
+
+})
+
+function confirmPay(){
+
+alert("Thanh toán thành công!")
+showPage("home")
+
+}
+
+function login(){
+
+let username=document.getElementById("user").value
+let password=document.getElementById("pass").value
+
+if(username=="admin" && password=="123456"){
+showPage("admin")
+}else{
+document.getElementById("loginError").innerHTML="Sai tài khoản hoặc mật khẩu"
+}
+
+}
+
+function themTour(){
+
+let ten=document.getElementById("tenTourAdmin").value
+let diaDiem=document.getElementById("diaDiemAdmin").value
+let gia=document.getElementById("giaTourAdmin").value
+
+let table=document.getElementById("bangTour")
+
+let row=table.insertRow()
+
+row.insertCell(0).innerHTML=ten
+row.insertCell(1).innerHTML=diaDiem
+row.insertCell(2).innerHTML=gia
+
+row.insertCell(3).innerHTML="<button onclick='xoaTour(this)'>Xóa</button>"
+
+}
+
+function xoaTour(btn){
+
+let row=btn.parentNode.parentNode
+row.remove()
+
+}
+
+</script>
+
+</body>
+</html>
